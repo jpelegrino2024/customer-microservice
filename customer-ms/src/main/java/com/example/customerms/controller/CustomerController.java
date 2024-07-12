@@ -1,5 +1,6 @@
 package com.example.customerms.controller;
 
+import com.example.customerms.dto.CustomerInfo;
 import com.example.customerms.entities.Customer;
 import com.example.customerms.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private CustomerInfo customerInfo;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable(name = "id") Long id) {
@@ -27,6 +30,11 @@ public class CustomerController {
        List<Customer> customers = customerService.getAll();
 
         return ResponseEntity.ok().body(customers);
+    }
+
+    @GetMapping(path = "info")
+    public ResponseEntity<CustomerInfo> getInfo() {
+        return ResponseEntity.ok().body(customerInfo);
     }
 
     @PostMapping
