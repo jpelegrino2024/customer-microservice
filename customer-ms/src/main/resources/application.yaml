@@ -48,3 +48,9 @@ info:
     name: "Customer"
     description: "Customer system"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      example:
+        customerms: DEBUG

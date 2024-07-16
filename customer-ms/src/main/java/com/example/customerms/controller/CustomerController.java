@@ -3,6 +3,8 @@ package com.example.customerms.controller;
 import com.example.customerms.dto.CustomerInfo;
 import com.example.customerms.entities.Customer;
 import com.example.customerms.services.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +15,19 @@ import java.util.List;
 @RequestMapping("/api/customers")
 public class CustomerController {
 
+    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
     @Autowired
     private CustomerService customerService;
     @Autowired
     private CustomerInfo customerInfo;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Customer> getCustomer(
+            @RequestHeader("wiremoney-correlation-id") String correlationId,
+            @PathVariable(name = "id") Long id) {
         Customer customer = customerService.getById(id);
-
+        logger.debug("wiremoney-correlation-id found:{} ", correlationId);
         return ResponseEntity.ok().body(customer);
     }
 
